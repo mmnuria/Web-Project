@@ -1,0 +1,19 @@
+/* Contenedor principal con sidebar a la derecha y ancho fijo para aside */
+.container {
+    display: flex;
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+/* Main ocupa el espacio restante */
+.container main {
+    flex-grow: 1;
+}
+
+/* Aside mantiene su ancho fijo (220px) */
+.container aside {
+    width: 220px;
+    /* height y otros estilos vienen de sidebar.css */
+}
