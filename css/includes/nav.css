@@ -1,15 +1,12 @@
 nav {
     background-color: #34495e;
     padding: 0.5rem 2rem;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .nav-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
 }
 
 .nav-menu {
@@ -23,8 +20,6 @@ nav {
 .nav-menu li a {
     color: #ecf0f1;
     text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease;
 }
 
 .nav-menu li a:hover {
@@ -36,32 +31,19 @@ nav {
     gap: 1rem;
 }
 
-.btn {
+.nav-right .btn {
     padding: 0.4rem 0.8rem;
     background-color: #1abc9c;
     color: white;
     text-decoration: none;
     border-radius: 4px;
-    transition: background-color 0.3s ease;
-    font-weight: 500;
 }
 
-.btn:hover {
+.nav-right .btn:hover {
     background-color: #16a085;
 }
 
-.btn-secondary {
-    background-color: transparent;
-    border: 1px solid #ecf0f1;
-    color: #ecf0f1;
-}
-
-.btn-secondary:hover {
-    background-color: #ecf0f1;
-    color: #34495e;
-}
 .nav-right {
-    position: relative;
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -79,7 +61,6 @@ nav {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-weight: 500;
 }
 
 .dropbtn:hover {

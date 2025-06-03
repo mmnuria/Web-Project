@@ -1,8 +1,17 @@
 <?php
-require_once 'includes/db.php';
+require_once 'db.php';
+
+// Iniciar sesión si no está iniciada
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 try {
-    // Total de aulas reservables
+    // Obtener info general del sitio (nombre, logo, descripción, horarios)
+    $stmtInfo = $pdo->query("SELECT * FROM informacion_sitio LIMIT 1");
+    $info = $stmtInfo->fetch();
+
+    // Total aulas reservables
     $stmtTotalAulas = $pdo->prepare("SELECT COUNT(*) FROM salas WHERE reservable = 1");
     $stmtTotalAulas->execute();
     $totalAulas = $stmtTotalAulas->fetchColumn();
@@ -12,7 +21,7 @@ try {
     $stmtCapacidadTotal->execute();
     $capacidadTotal = $stmtCapacidadTotal->fetchColumn();
 
-    // Salas reservadas hoy (reservas con fecha = hoy para salas reservables)
+    // Salas reservadas hoy (fecha = hoy y reservable)
     $stmtSalasReservadas = $pdo->prepare("
         SELECT COUNT(DISTINCT r.sala_id)
         FROM reservas r
@@ -21,15 +30,50 @@ try {
     ");
     $stmtSalasReservadas->execute();
     $salasReservadas = $stmtSalasReservadas->fetchColumn();
+
 } catch (PDOException $e) {
     die("Error al obtener datos para el sidebar: " . $e->getMessage());
+}
+
+// Función para formatear hora sin segundos
+function formatHoraSinSegundos($hora)
+{
+    if (!$hora)
+        return '';
+    $dt = DateTime::createFromFormat('H:i:s', $hora);
+    return $dt ? $dt->format('H:i') : $hora;
 }
 ?>
 
 <aside>
-    <div class="info-secundaria">
-        <p>Total de aulas: <span id="totalAulas"><?php echo htmlspecialchars($totalAulas); ?></span></p>
-        <p>Capacidad total: <span id="capacidadTotal"><?php echo htmlspecialchars($capacidadTotal); ?></span></p>
-        <p>Salas reservadas hoy: <span id="salasReservadas"><?php echo htmlspecialchars($salasReservadas); ?></span></p>
+    <div class="container-sidebar">
+
+        <div class="info-sitio">
+            <?php if (!empty($info['logo'])): ?>
+                <img src="mostrar_logo.php" alt="Logo del centro" class="logo-centro">
+            <?php endif; ?>
+
+            <h3><?= htmlspecialchars($info['nombre_centro'] ?? 'Nombre del Centro') ?></h3>
+
+            <p><?= nl2br(htmlspecialchars($info['descripcion'] ?? '')) ?></p>
+
+            <p><strong>Horario:</strong>
+                <?= formatHoraSinSegundos($info['horario_inicio'] ?? '') ?> -
+                <?= formatHoraSinSegundos($info['horario_fin'] ?? '') ?>
+            </p>
+        </div>
+
+        <div class="info-secundaria">
+            <p>Total de aulas: <span id="totalAulas"><?= htmlspecialchars($totalAulas ?? '0') ?></span></p>
+            <p>Capacidad total: <span id="capacidadTotal"><?= htmlspecialchars($capacidadTotal ?? '0') ?></span></p>
+            <p>Salas reservadas hoy: <span id="salasReservadas"><?= htmlspecialchars($salasReservadas ?? '0') ?></span>
+            </p>
+        </div>
+
+        <?php if (!empty($_SESSION['user']) && ($_SESSION['user']['rol'] ?? '') === 'admin'): ?>
+            <div class="sidebar-item">
+                <a href="editar_info.php">⚙️ Configurar sitio</a>
+            </div>
+        <?php endif; ?>
     </div>
 </aside>

@@ -1,16 +1,4 @@
 main {
-    flex: 1;
     padding: 2rem;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #34495e;
-}
-
-main h1 {
-    font-weight: 700;
-    margin-bottom: 1rem;
-}
-
-main p {
-    font-size: 1.1rem;
-    line-height: 1.5;
 }

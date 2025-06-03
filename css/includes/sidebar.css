@@ -1,19 +1,67 @@
-/* Contenedor principal con sidebar a la derecha y ancho fijo para aside */
-.container {
+/* Hacer que aside sea un contenedor flex */
+aside {
     display: flex;
-    gap: 1.5rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 1rem;
+    justify-content: flex-end; /* Empuja el contenido hijo a la derecha */
+}
+.container-sidebar {
+    padding: 20px;
 }
 
-/* Main ocupa el espacio restante */
-.container main {
-    flex-grow: 1;
+/* Logo centrado y ajustado */
+.info-sitio .logo-centro {
+    display: block;
+    max-height: 100px;
+    margin: 0 auto 15px auto;
+    border-radius: 8px;
 }
 
-/* Aside mantiene su ancho fijo (220px) */
-.container aside {
-    width: 220px;
-    /* height y otros estilos vienen de sidebar.css */
+/* Título del centro */
+.info-sitio h3 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}
+
+/* Horario y datos */
+.info-sitio p {
+    margin: 10px;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    padding-left: 35px;
+}
+
+/* Mantener estilos del bloque */
+aside .info-secundaria {
+    background: #f5f7fa;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 35px;
+}
+
+/* Datos destacados con span */
+aside .info-secundaria span {
+    font-weight: 600;
+    color: #1d3e6f;
+}
+
+/* Botón configuración para admin */
+aside .info-secundaria .btn-configurar {
+    display: block;
+    margin: 20px auto 0 auto;
+    background-color: #1d3e6f;
+    color: #fff;
+    text-align: center;
+    padding: 10px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    width: fit-content;
+    transition: background-color 0.3s ease;
+}
+
+aside .info-secundaria .btn-configurar:hover {
+    background-color: #1d3e6f;
+    cursor: pointer;
 }

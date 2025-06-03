@@ -29,91 +29,111 @@ if (isset($_SESSION['user'])) {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8" />
     <title>Listado de Salas</title>
     <link rel="stylesheet" href="css/styles.css" />
 </head>
-<body>
+
+<body class="salas-body">
     <?php include 'includes/header.php'; ?>
     <?php include 'includes/nav.php'; ?>
 
-    <h1>Listado de Salas</h1>
+    <main class="salas-main">
+        <h1 class="salas-title">Listado de Salas</h1>
 
-    <?php if (isset($_SESSION['user']) && $_SESSION['user']['rol'] === 'admin'): ?>
-        <p><a href="admin/añadir_sala.php">➕ Añadir nueva sala</a></p>
-    <?php endif; ?>
+        <?php if (isset($_SESSION['user']) && $_SESSION['user']['rol'] === 'admin'): ?>
+            <p class="salas-add-link">
+                <a href="admin/añadir_sala.php">➕ Añadir nueva sala</a>
+            </p>
+        <?php endif; ?>
 
-    <table border="1" cellpadding="8" cellspacing="0" width="100%">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Ubicación</th>
-                <th>Puestos</th>
-                <th>Reservable</th>
-                <th>Fotos</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($salas as $sala): ?>
-                <tr>
-                    <td><?= htmlspecialchars($sala['nombre']) ?></td>
-                    <td><?= htmlspecialchars($sala['ubicacion']) ?></td>
-                    <td><?= (int)$sala['num_puestos'] ?></td>
-                    <td><?= $sala['reservable'] ? 'Sí' : 'No' ?></td>
-                    <td>
-                        <?php
-                        if (!empty($fotosPorSala[$sala['id']])) {
-                            foreach ($fotosPorSala[$sala['id']] as $foto) {
-                                $src = 'data:' . htmlspecialchars($foto['tipo_mime']) . ';base64,' . base64_encode($foto['foto']);
-                                echo "<img src='$src' width='100' style='margin: 3px;' alt='Foto de sala'>";
-                            }
-                        } else {
-                            echo "Sin fotos";
-                        }
-                        ?>
-                    </td>
-                    <td>
-                        <?php if (isset($_SESSION['user']) && $_SESSION['user']['rol'] === 'admin'): ?>
-                            <a href="editar_sala.php?id=<?= (int)$sala['id'] ?>">✏️ Editar</a>
-                        <?php else: ?>
-                            —
-                        <?php endif; ?>
-                    </td>
-                </tr>
-
-                <?php if (isset($_SESSION['user'])): ?>
+        <div class="salas-table-wrapper">
+            <table class="salas-table">
+                <thead>
                     <tr>
-                        <td colspan="6" style="background: #f9f9f9;">
-                            <strong>Comentarios:</strong>
-                            <ul>
-                                <?php if (!empty($comentarios[$sala['id']])): ?>
-                                    <?php foreach ($comentarios[$sala['id']] as $coment): ?>
-                                        <li>
-                                            <em><?= htmlspecialchars($coment['usuario_nombre']) ?>:</em>
-                                            <?= nl2br(htmlspecialchars($coment['comentario'])) ?>
-                                            <small>(<?= date('d/m/Y H:i', strtotime($coment['fecha'])) ?>)</small>
-                                        </li>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
-                                    <li><em>Sin comentarios.</em></li>
-                                <?php endif; ?>
-                            </ul>
-
-                            <!-- Formulario para añadir comentario -->
-                            <form method="POST" action="includes/agregar_comentario.php">
-                                <input type="hidden" name="sala_id" value="<?= (int)$sala['id'] ?>">
-                                <textarea name="comentario" rows="2" cols="60" placeholder="Escribe un comentario..." required></textarea><br>
-                                <button type="submit">💬 Comentar</button>
-                            </form>
-                        </td>
+                        <th>Nombre</th>
+                        <th>Ubicación</th>
+                        <th>Puestos</th>
+                        <th>Reservable</th>
+                        <th>Fotos</th>
+                        <th>Acciones</th>
                     </tr>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+                </thead>
+                <tbody>
+                    <?php foreach ($salas as $sala): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($sala['nombre']) ?></td>
+                            <td><?= htmlspecialchars($sala['ubicacion']) ?></td>
+                            <td><?= (int) $sala['num_puestos'] ?></td>
+                            <td><?= $sala['reservable'] ? 'Sí' : 'No' ?></td>
+                            <td class="sala-fotos">
+                                <?php
+                                if (!empty($fotosPorSala[$sala['id']])) {
+                                    foreach ($fotosPorSala[$sala['id']] as $foto) {
+                                        $src = 'data:' . htmlspecialchars($foto['tipo_mime']) . ';base64,' . base64_encode($foto['foto']);
+                                        echo "<img src='$src' class='foto-sala' alt='Foto de sala'>";
+                                    }
+                                } else {
+                                    echo "<span class='sin-fotos'>Sin fotos</span>";
+                                }
+                                ?>
+                            </td>
+                            <td>
+                                <?php if (isset($_SESSION['user']) && $_SESSION['user']['rol'] === 'admin'): ?>
+                                    <div class="acciones-admin">
+                                        <a href="editar_sala.php?id=<?= (int) $sala['id'] ?>" class="btn-editar">✏️ Editar</a>
+                                        <form method="POST" action="eliminar_sala.php"
+                                            onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta sala?');"
+                                            style="display:inline;">
+                                            <input type="hidden" name="sala_id" value="<?= (int) $sala['id'] ?>">
+                                            <button type="submit" class="btn-eliminar">🗑️ Eliminar</button>
+                                        </form>
+                                    </div>
+                                <?php else: ?>
+                                    —
+                                <?php endif; ?>
+                            </td>
+
+                        </tr>
+
+                        <?php if (isset($_SESSION['user'])): ?>
+                            <tr class="fila-comentarios">
+                                <td colspan="6">
+                                    <div class="comentarios">
+                                        <strong>Comentarios:</strong>
+                                        <ul>
+                                            <?php if (!empty($comentarios[$sala['id']])): ?>
+                                                <?php foreach ($comentarios[$sala['id']] as $coment): ?>
+                                                    <li>
+                                                        <em><?= htmlspecialchars($coment['usuario_nombre']) ?>:</em>
+                                                        <?= nl2br(htmlspecialchars($coment['comentario'])) ?>
+                                                        <small>(<?= date('d/m/Y H:i', strtotime($coment['fecha'])) ?>)</small>
+                                                    </li>
+                                                <?php endforeach; ?>
+                                            <?php else: ?>
+                                                <li><em>Sin comentarios.</em></li>
+                                            <?php endif; ?>
+                                        </ul>
+
+                                        <form method="POST" action="includes/agregar_comentario.php" class="form-comentario">
+                                            <input type="hidden" name="sala_id" value="<?= (int) $sala['id'] ?>">
+                                            <textarea name="comentario" rows="2" placeholder="Escribe un comentario..."
+                                                required></textarea>
+                                            <button type="submit">💬 Comentar</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </main>
 
     <?php include 'includes/footer.php'; ?>
 </body>
+
 </html>

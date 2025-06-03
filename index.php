@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once 'includes/auth.php';
-require_once 'includes/db.php'; 
+require_once 'includes/db.php';
 
 // Obtener salas reservables
 $stmtSalas = $pdo->prepare("SELECT * FROM salas WHERE reservable = 1");
@@ -22,11 +22,13 @@ $reservas = $stmtReservas->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Gestión de Salas</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
     <?php include 'includes/header.php'; ?>
     <?php include 'includes/nav.php'; ?>
@@ -34,32 +36,37 @@ $reservas = $stmtReservas->fetchAll(PDO::FETCH_ASSOC);
     <div class="container">
         <main>
             <h1>Bienvenido a la plataforma de reservas de salas</h1>
-            <p>Por favor, utilice el menú para navegar.</p>
 
             <section>
                 <h2>Salas disponibles</h2>
-                <ul>
+                <div class="salas-grid">
                     <?php foreach ($salas as $sala): ?>
-                        <li>
-                            <?php echo htmlspecialchars($sala['nombre']); ?> — Capacidad: <?php echo htmlspecialchars($sala['num_puestos']); ?><br>
-                            Ubicación: <?php echo htmlspecialchars($sala['ubicacion']); ?><br>
-                            Descripción: <?php echo htmlspecialchars($sala['descripcion']); ?>
-                        </li>
+                        <div class="sala-card">
+                            <h3><?= htmlspecialchars($sala['nombre']); ?></h3>
+                            <p><strong>Capacidad:</strong> <?= htmlspecialchars($sala['num_puestos']); ?></p>
+                            <p><strong>Ubicación:</strong> <?= htmlspecialchars($sala['ubicacion']); ?></p>
+                            <p><?= nl2br(htmlspecialchars($sala['descripcion'])); ?></p>
+                        </div>
                     <?php endforeach; ?>
-                </ul>
+                </div>
             </section>
+
 
             <section>
                 <h2>Reservas actuales</h2>
-                <ul>
+                <div class="reservas-grid">
                     <?php foreach ($reservas as $reserva): ?>
-                        <li>
-                            Sala: <?php echo htmlspecialchars($reserva['sala_nombre']); ?> | Usuario: <?php echo htmlspecialchars($reserva['usuario_nombre']); ?> | Fecha: <?php echo htmlspecialchars($reserva['fecha']); ?> | Hora: <?php echo htmlspecialchars($reserva['hora_inicio']); ?> - <?php echo htmlspecialchars($reserva['hora_fin']); ?><br>
-                            Motivo: <?php echo htmlspecialchars($reserva['motivo']); ?>
-                        </li>
+                        <div class="reserva-card">
+                            <h3><?= htmlspecialchars($reserva['sala_nombre']); ?></h3>
+                            <p><strong>Fecha:</strong> <?= htmlspecialchars($reserva['fecha']); ?></p>
+                            <p><strong>Hora:</strong> <?= htmlspecialchars($reserva['hora_inicio']); ?> -
+                                <?= htmlspecialchars($reserva['hora_fin']); ?></p>
+                            <p><strong>Motivo:</strong> <?= nl2br(htmlspecialchars($reserva['motivo'])); ?></p>
+                        </div>
                     <?php endforeach; ?>
-                </ul>
+                </div>
             </section>
+
         </main>
 
         <aside>
@@ -69,4 +76,5 @@ $reservas = $stmtReservas->fetchAll(PDO::FETCH_ASSOC);
 
     <?php include 'includes/footer.php'; ?>
 </body>
+
 </html>

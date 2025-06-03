@@ -7,27 +7,18 @@
 /* Estilos generales para toda la página */
 
 body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
+    padding: 0;
     background-color: #f8f9fa;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
 .container {
     display: flex;
     flex: 1;
-}
-
-aside,
-main {
-    box-sizing: border-box;
 }
 
 /* Para que el footer quede abajo siempre */
@@ -36,7 +27,6 @@ body>footer {
 }
 
 /* Estilos para la página de login */
-
 .main-content {
     display: flex;
     justify-content: center;
@@ -180,193 +170,16 @@ body>footer {
     text-align: center;
 }
 
-/* Estilos comunes para ambas páginas, si quieres */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f7f9fc;
-    color: #333;
-    margin: 0;
-    padding: 0;
-}
-
 /* ----------------- RESERVAS.PHP ----------------- */
-
-body.reservas-page {
+.reservas-page {
     padding: 20px;
-    background-color: #fafafa;
-    font-family: Arial, sans-serif;
 }
 
-body.reservas-page h1.titulo {
+.reservas-page h1.titulo {
     font-size: 2em;
     margin-bottom: 20px;
-    color: #2a5d9f;
+    color: #1d3e6f;
 }
-
-/* Calendario pequeño */
-body.reservas-page .calendario-wrapper {
-    max-width: 500px;
-    margin-bottom: 30px;
-}
-
-body.reservas-page .controles-mes {
-    margin-bottom: 10px;
-    display: flex;
-    gap: 8px;
-}
-
-body.reservas-page .controles-mes .btn {
-    background-color: #2a5d9f;
-    color: white;
-    padding: 8px 14px;
-    border-radius: 4px;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    user-select: none;
-    transition: background-color 0.3s ease;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-body.reservas-page .controles-mes .btn:hover,
-body.reservas-page .controles-mes .btn:focus {
-    background-color: #1d3e6f;
-    outline: none;
-}
-
-/* Remplazo de « y » por Unicode para evitar + o símbolos raros */
-body.reservas-page .controles-mes .btn::before {
-    content: attr(data-icon);
-    margin-right: 6px;
-    font-weight: 700;
-    font-size: 1.2em;
-    user-select: none;
-}
-
-body.reservas-page .controles-mes .btn[data-icon=""]::before {
-    content: none;
-}
-
-/* Minicalendario tabla */
-body.reservas-page table.minicalendario {
-    border-collapse: collapse;
-    width: 100%;
-    table-layout: fixed;
-    user-select: none;
-    font-weight: 600;
-    font-size: 0.9rem;
-}
-
-body.reservas-page table.minicalendario th,
-body.reservas-page table.minicalendario td {
-    border: 1px solid #ddd;
-    padding: 6px 0;
-    text-align: center;
-    vertical-align: middle;
-    cursor: default;
-}
-
-body.reservas-page table.minicalendario td a {
-    color: #2a5d9f;
-    display: block;
-    width: 100%;
-    height: 100%;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-body.reservas-page table.minicalendario td.hoy {
-    background-color: #d6e4f7;
-    font-weight: 700;
-}
-
-body.reservas-page table.minicalendario td.pasado {
-    color: #bbb;
-}
-
-/* Tabla principal de reservas */
-body.reservas-page table.tabla-reservas {
-    border-collapse: collapse;
-    width: 100%;
-    margin-bottom: 30px;
-    font-size: 0.9rem;
-    table-layout: fixed;
-}
-
-body.reservas-page table.tabla-reservas th,
-body.reservas-page table.tabla-reservas td {
-    border: 1px solid #ccc;
-    padding: 5px 6px;
-    text-align: center;
-    vertical-align: middle;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-body.reservas-page table.tabla-reservas th {
-    background-color: #2a5d9f;
-    color: white;
-    font-weight: 600;
-    font-size: 0.85rem;
-}
-
-body.reservas-page td.nombre-sala {
-    font-weight: 600;
-    text-align: left;
-    padding-left: 10px;
-    background-color: #f0f4fa;
-    width: 130px;
-}
-
-body.reservas-page td.ocupado {
-    background-color: #f9d6d5;
-    color: #a12725;
-    font-weight: 700;
-    white-space: nowrap;
-    font-size: 0.85rem;
-}
-
-/* Botones borrar */
-body.reservas-page form {
-    display: inline;
-    margin: 0;
-}
-
-body.reservas-page button {
-    background-color: #e04e39;
-    border: none;
-    padding: 5px 10px;
-    color: white;
-    border-radius: 3px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
-    font-size: 0.85rem;
-}
-
-body.reservas-page button:hover,
-body.reservas-page button:focus {
-    background-color: #a03227;
-    outline: none;
-}
-
-body.reservas-page p>a {
-    color: #2a5d9f;
-    font-weight: 600;
-    text-decoration: none;
-}
-
-body.reservas-page p>a:hover,
-body.reservas-page p>a:focus {
-    text-decoration: underline;
-    outline: none;
-}
-
-/* ----------------- CREAR_RESERVA.PHP ----------------- */
 
 .crear-reserva-page {
     font-family: Arial, sans-serif;
@@ -450,12 +263,11 @@ body.reservas-page p>a:focus {
     padding: 6px 12px;
     font-weight: 600;
 }
-/* Contenedor del formulario con padding */
+
 .form-crear-reserva {
     padding: 20px;    
 }
 
-/* Botones guardar y cancelar con mismo estilo */
 .form-crear-reserva button,
 .form-crear-reserva a {
     display: inline-block;
@@ -515,18 +327,9 @@ body.reservas-page p>a:focus {
     border: 1px solid #ccc;
 }
 
-/* Hace que la tabla no se rompa en móviles */
 .tabla-scroll table {
     border-collapse: collapse;
-    min-width: 1200px;
-    /* puedes ajustar si quieres que siempre tenga un mínimo */
-}
-
-.tabla-scroll th,
-.tabla-scroll td {
-    padding: 4px 8px;
-    text-align: center;
-    white-space: nowrap;
+    margin: 20px;
 }
 
 /* Reglas base: la separación se mantiene en TODAS las celdas */
@@ -538,25 +341,40 @@ body.reservas-page p>a:focus {
     white-space: nowrap;
 }
 
+/* Columna izquierda: Nombres de salas */
+.tabla-reservas .nombre-sala {
+    background-color: #cced78;
+    font-weight: bold;
+    color: #000000;
+    font-size: 15px;
+    padding-left: 8px;
+}
+
+/* Encabezados con las horas */
+.tabla-reservas thead th:not(:first-child) {
+    background-color: #dcdcdc;
+    color: #000000;
+    font-size: 14px;
+    font-weight: 600;
+    border-bottom: 2px solid #c8e6c9;
+}
+
+
 /* Colores de estado (incluyen borde para que no se pierda) */
 .libre {
-    background: #e0ffe0;
-    border: 1px solid #bbb;
+    background: white;
 }
 
 .ocupada {
     background: #d6e4ff;
-    border: 1px solid #bbb;
 }
 
 .propia {
     background: #c3e6cb;
-    border: 1px solid #bbb;
 }
 
 .no-reservable {
     background: #e9ecef;
-    border: 1px solid #bbb;
     color: #777;
 }
 
@@ -565,12 +383,6 @@ body.reservas-page p>a:focus {
     text-decoration: none;
     font-size: 1.2rem;
     line-height: 1;
-}
-
-/* Scroll horizontal (ya lo tenías) */
-.tabla-scroll {
-    overflow-x: auto;
-    width: 100%;
 }
 
 
@@ -856,7 +668,6 @@ body.reservas-page p>a:focus {
     background-color: #0056b3;
 }
 
-
 /* Estilos para el formulario de subida de fotos */
 #subir-foto-form {
     background-color: #fff;
@@ -893,7 +704,7 @@ body.reservas-page p>a:focus {
     background-color: #1e7e34;
 }
 
-/* Estilos para las fotos actuales, igual que antes */
+/* Estilos para las fotos actuales */
 .fotos-container {
     display: flex;
     flex-wrap: wrap;
@@ -984,7 +795,7 @@ a.back-link:hover {
 }
 
 .reservas-page .controles-mes .btn-cal {
-    background-color: #3498db;
+    background-color: #2c3e50;
     color: white;
     text-decoration: none;
     padding: 0.3rem 0.8rem;
@@ -1048,7 +859,7 @@ a.back-link:hover {
     display: block;
     margin: 0.8rem auto 0;
     padding: 0.4rem 1.2rem;
-    background-color: #27ae60;
+    background-color: #1abc9c;
     color: white;
     text-align: center;
     border-radius: 5px;
@@ -1062,4 +873,644 @@ a.back-link:hover {
 
 .reservas-page .btn-hoy:hover {
     background-color: #1e8449;
+}
+
+/* Estilos para la vista log.php */
+.log-container {
+    width: 90%;
+    margin: 30px auto;
+    font-family: Arial, sans-serif;
+}
+
+.log-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.log-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.log-table thead {
+    background-color: #2c3e50;
+    color: #fff;
+}
+
+.log-table th,
+.log-table td {
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    text-align: left;
+    font-size: 14px;
+}
+
+.log-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.log-table tbody tr:hover {
+    background-color: #f1f1f1;
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* Layout para el index.php en formato tarjetas */
+.salas-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.sala-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    width: 150px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.sala-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.sala-card h3 {
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+.sala-card p {
+    margin: 8px 0;
+    color: #555;
+}
+/* Layout para la sección de reservas en formato tarjetas */
+.reservas-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.reserva-card {
+    background-color: #fafafa;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 18px;
+    width: 150px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.reserva-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+.reserva-card h3 {
+    margin: 0 0 10px;
+    color: #34495e;
+}
+
+.reserva-card p {
+    margin: 6px 0;
+    color: #444;
+}
+
+/* Estilo configuración del sitio */
+.configuracion-container {
+    background: #fff;
+    padding: 35px 45px;
+}
+
+.configuracion-title {
+    font-size: 2rem;
+    letter-spacing: 1px;
+}
+
+.alert {
+    padding: 14px 22px;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1.05rem;
+    text-align: center;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.05);
+}
+
+.alert-error {
+    background-color: #ffe8e8;
+    color: #d64545;
+    border: 1px solid #d64545;
+}
+
+.alert-success {
+    background-color: #e8f8e8;
+    color: #3c763d;
+    border: 1px solid #3c763d;
+}
+
+.configuracion-form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 1rem;
+    user-select: none;
+}
+
+.form-group input[type="text"],
+.form-group input[type="time"],
+.form-group input[type="file"],
+.form-group textarea {
+    padding: 14px 18px;
+    font-size: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 14px;
+    font-family: inherit;
+    background-color: #fafafa;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="time"]:focus,
+.form-group input[type="file"]:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #6a8af4;
+    box-shadow: 0 0 8px rgba(106, 138, 244, 0.5);
+    background-color: #fff;
+}
+
+.form-row {
+    display: flex;
+    gap: 25px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.logo-preview {
+    max-height: 60px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    object-fit: contain;
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.07));
+}
+
+.btn-submit {
+    background: linear-gradient(135deg, #364884 0%, #1d3e6f 100%);
+    color: white;
+    border: none;
+    padding: 16px 26px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.4s ease, box-shadow 0.3s ease;
+    align-self: center;
+    width: 200px;
+    box-shadow: 0 6px 12px rgba(64, 86, 244, 0.4);
+}
+
+.btn-submit:hover,
+.btn-submit:focus {
+    background: linear-gradient(135deg, #4056f4 0%, #2c3bbd 100%);
+    box-shadow: 0 8px 20px rgba(44, 59, 189, 0.6);
+    outline: none;
+}
+
+
+/* Estilo para salas.php */
+
+.salas-main {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.salas-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.salas-add-link {
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.salas-add-link a {
+    color: #2c7be5;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.salas-add-link a:hover {
+    text-decoration: underline;
+}
+
+.salas-table-wrapper {
+    overflow-x: auto;
+}
+
+.salas-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+}
+
+.salas-table th, .salas-table td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.salas-table th {
+    background-color: #f1f3f5;
+    color: #555;
+    font-weight: bold;
+}
+
+.salas-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+.foto-sala {
+    width: 60px;
+    height: auto;
+    margin-right: 6px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.sin-fotos {
+    color: #aaa;
+    font-style: italic;
+}
+
+.btn-editar {
+    color: #2c7be5;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn-editar:hover {
+    text-decoration: underline;
+}
+
+.fila-comentarios td {
+    background-color: #fdfdfd;
+    padding: 20px;
+}
+
+.comentarios ul {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 20px;
+}
+
+.comentarios li {
+    margin-bottom: 8px;
+}
+
+small {
+    color: #999;
+}
+
+.form-comentario {
+    margin-top: 10px;
+}
+
+.form-comentario textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: inherit;
+    resize: vertical;
+    margin-bottom: 10px;
+}
+
+.form-comentario button {
+    background-color: #2c7be5;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.form-comentario button:hover {
+    background-color: #1a5fc2;
+}
+
+.acciones-admin {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn-eliminar {
+    background-color: #e74c3c;
+    color: white;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.3s ease;
+}
+
+.btn-eliminar:hover {
+    background-color: #c0392b;
+}
+
+/* Estilos pagina usuarios */
+/* Solo para la página de usuarios */
+#usuarios-page main {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+#usuarios-page h1,
+#usuarios-page h2 {
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 1rem;
+}
+
+#usuarios-page p {
+    background-color: #e0f7fa;
+    border-left: 5px solid #0097a7;
+    padding: 0.75rem 1rem;
+    border-radius: 3px;
+}
+
+#usuarios-page table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+    box-shadow: 0 0 8px rgba(0,0,0,0.05);
+}
+
+#usuarios-page thead {
+    background-color: #0097a7;
+    color: white;
+}
+
+#usuarios-page th,
+#usuarios-page td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#usuarios-page tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+#usuarios-page .btn {
+    font-size: 0.9rem;
+    padding: 0.3rem 0.7rem;
+    margin-right: 0.3rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    display: inline-block;
+    transition: background-color 0.2s ease;
+}
+
+#usuarios-page .btn-edit {
+    background-color: #0288d1;
+}
+
+#usuarios-page .btn-edit:hover {
+    background-color: #0277bd;
+}
+
+#usuarios-page .btn-delete {
+    background-color: #d32f2f;
+}
+
+#usuarios-page .btn-delete:hover {
+    background-color: #b71c1c;
+}
+
+#usuarios-page form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 400px;
+}
+
+#usuarios-page label {
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+}
+
+#usuarios-page input[type="text"],
+#usuarios-page input[type="email"],
+#usuarios-page select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+}
+
+#usuarios-page input[type="text"]:focus,
+#usuarios-page input[type="email"]:focus,
+#usuarios-page select:focus {
+    border-color: #0097a7;
+    outline: none;
+}
+
+#usuarios-page button[type="submit"] {
+    background-color: #e53b3b;
+    color: white;
+    font-weight: 600;
+    padding: 0.6rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#usuarios-page button[type="submit"]:hover {
+    background-color: #ff0000;
+}
+
+#usuarios-page .añadir-usuario {
+    max-width: 400px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background-color: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#usuarios-page .añadir-usuario h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #222;
+}
+
+#usuarios-page .añadir-usuario form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#usuarios-page .añadir-usuario label {
+    font-weight: 600;
+    color: #333;
+}
+
+#usuarios-page .añadir-usuario input[type="text"],
+#usuarios-page .añadir-usuario input[type="email"],
+#usuarios-page .añadir-usuario select {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.2s ease;
+}
+
+#usuarios-page .añadir-usuario input:focus,
+#usuarios-page .añadir-usuario select:focus {
+    border-color: #0097a7;
+    outline: none;
+}
+
+#usuarios-page .añadir-usuario button[type="submit"] {
+    background-color: #0097a7;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 0.6rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#usuarios-page .añadir-usuario button[type="submit"]:hover {
+    background-color: #007c91;
+}
+#usuarios-page .acciones-superiores {
+    display: flex;
+    justify-content: flex-end;
+    margin: 1rem 0;
+}
+
+#usuarios-page .btn-add {
+    background-color: #28a745;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+#usuarios-page .btn-add:hover {
+    background-color: #218838;
+}
+
+/* Estilo moderno y elegante para crear_usuario.php */
+#crear-usuario-page {
+    max-width: 550px;
+    margin: 50px auto;
+    padding: 35px;
+    background: #f9f9f9;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+    font-family: 'Roboto', sans-serif;
+}
+
+#crear-usuario-page h1 {
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 25px;
+    color: #2e2e2e;
+    letter-spacing: 0.5px;
+}
+
+.form-usuario {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-usuario label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #555;
+}
+
+.form-usuario input,
+.form-usuario select {
+    padding: 10px 14px;
+    margin-bottom: 18px;
+    border: 1px solid #dcdcdc;
+    border-radius: 12px;
+    font-size: 15px;
+    background-color: #fff;
+    transition: border-color 0.3s ease, box-shadow 0.2s ease;
+}
+
+.form-usuario input:focus,
+.form-usuario select:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
+    outline: none;
+}
+
+.form-usuario button {
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.form-usuario button:hover {
+    background-color: #45a049;
+}
+
+#crear-usuario-page p {
+    text-align: center;
+    margin-top: 20px;
+    color: #2e7d32;
+    font-weight: 500;
 }

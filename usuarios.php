@@ -43,36 +43,42 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8" />
     <title>Usuarios</title>
     <link rel="stylesheet" href="css/styles.css" />
 </head>
+
 <body>
     <?php include 'includes/header.php'; ?>
     <?php include 'includes/nav.php'; ?>
 
-    <main>
-        <h1>Listado de Usuarios</h1>
+    <main id="usuarios-page">
+    <h1>Listado de Usuarios</h1>
 
-        <?php if ($mensaje): ?>
-            <p><?php echo htmlspecialchars($mensaje); ?></p>
-        <?php endif; ?>
+    <?php if ($mensaje): ?>
+        <p><?php echo htmlspecialchars($mensaje); ?></p>
+    <?php endif; ?>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Rol</th>
-                    <?php if ($_SESSION['user']['rol'] === 'admin'): ?>
-                        <th>Acciones</th>
-                    <?php endif; ?>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($usuarios as $usuario): ?>
+    <div class="acciones-superiores">
+        <a href="crear_usuario.php" class="btn btn-add">+ Añadir Usuario</a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <?php if ($_SESSION['user']['rol'] === 'admin'): ?>
+                    <th>Acciones</th>
+                <?php endif; ?>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($usuarios as $usuario): ?>
                 <tr>
                     <td><?php echo htmlspecialchars($usuario['id']); ?></td>
                     <td><?php echo htmlspecialchars($usuario['nombre']); ?></td>
@@ -80,34 +86,22 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><?php echo htmlspecialchars($usuario['rol']); ?></td>
                     <?php if ($_SESSION['user']['rol'] === 'admin'): ?>
                         <td>
-                            <a href="editar_usuario.php?id=<?php echo $usuario['id']; ?>">Editar</a>
+                            <a href="editar_usuario.php?id=<?php echo $usuario['id']; ?>" class="btn btn-edit">Editar</a>
+                            <form method="POST" action="eliminar_usuario.php" style="display:inline;"
+                                  onsubmit="return confirm('¿Seguro que quieres eliminar este usuario?');">
+                                <input type="hidden" name="usuario_id" value="<?php echo $usuario['id']; ?>">
+                                <button type="submit" class="btn btn-delete">Eliminar</button>
+                            </form>
                         </td>
                     <?php endif; ?>
                 </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</main>
 
-        <h2>Añadir nuevo usuario</h2>
-
-        <form action="usuarios.php" method="POST" novalidate>
-            <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" name="nombre" required>
-
-            <label for="email">Correo electrónico</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="rol">Rol</label>
-            <select id="rol" name="rol" required>
-                <option value="">-- Seleccione --</option>
-                <option value="admin">Administrador</option>
-                <option value="user">Usuario</option>
-            </select>
-
-            <button type="submit">Añadir Usuario</button>
-        </form>
-    </main>
 
     <?php include 'includes/footer.php'; ?>
 </body>
+
 </html>
