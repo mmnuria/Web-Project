@@ -14,17 +14,18 @@ $stmt = $pdo->query("SELECT * FROM informacion_sitio LIMIT 1");
 $info = $stmt->fetch();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre_centro = trim($_POST['nombre_centro']);
-    $descripcion = trim($_POST['descripcion']);
-    $horario_inicio = $_POST['horario_inicio'];
-    $horario_fin = $_POST['horario_fin'];
+    $nombre_centro = trim($_POST['nombre_centro'] ?? '');
+    $descripcion = trim($_POST['descripcion'] ?? '');
+    $horario_inicio = $_POST['horario_inicio'] ?? '';
+    $horario_fin = $_POST['horario_fin'] ?? '';
     $logoBin = $info['logo']; // mantener si no se cambia
 
-    if ($horario_inicio >= $horario_fin) {
+    // Validación general
+    if ($nombre_centro === '' || $descripcion === '' || $horario_inicio === '' || $horario_fin === '') {
+        $error = "Todos los campos deben estar completos.";
+    } elseif ($horario_inicio >= $horario_fin) {
         $error = "El horario de inicio debe ser anterior al de fin.";
-    }
-
-    if (isset($_FILES['logo']) && $_FILES['logo']['size'] > 0) {
+    } elseif (isset($_FILES['logo']) && $_FILES['logo']['size'] > 0) {
         if (exif_imagetype($_FILES['logo']['tmp_name'])) {
             $logoBin = file_get_contents($_FILES['logo']['tmp_name']);
         } else {
@@ -46,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Variables seguras para evitar warnings y deprecateds
+// Variables seguras para evitar warnings
 $nombre_centro_safe = htmlspecialchars($info['nombre_centro'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 $descripcion_safe = htmlspecialchars($info['descripcion'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 $horario_inicio_safe = htmlspecialchars($info['horario_inicio'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -56,13 +57,11 @@ $logo_exists = !empty($info['logo']);
 
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8" />
     <title>Configuración del Sitio</title>
     <link rel="stylesheet" href="css/styles.css" />
 </head>
-
 <body>
     <?php include 'includes/header.php'; ?>
     <?php include 'includes/nav.php'; ?>
@@ -84,7 +83,7 @@ $logo_exists = !empty($info['logo']);
 
             <div class="form-group">
                 <label for="descripcion">Descripción:</label>
-                <textarea id="descripcion" name="descripcion" rows="4"><?= $descripcion_safe ?></textarea>
+                <textarea id="descripcion" name="descripcion" rows="4" required><?= $descripcion_safe ?></textarea>
             </div>
 
             <div class="form-row">
@@ -113,5 +112,4 @@ $logo_exists = !empty($info['logo']);
 
     <?php include 'includes/footer.php'; ?>
 </body>
-
 </html>

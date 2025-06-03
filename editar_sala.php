@@ -103,7 +103,7 @@ $fotos = $stmt->fetchAll();
 
 <head>
     <meta charset="UTF-8">
-    <title>Editar Sala</title>
+    <title>Editar sala</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 

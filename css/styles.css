@@ -130,12 +130,13 @@ body>footer {
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 320px;
+    color: #34495e;
 }
 
 .ajustes-form label {
     display: block;
     margin-top: 1rem;
+    font-weight: bold;
 }
 
 .ajustes-form input[type="text"],
@@ -152,17 +153,16 @@ body>footer {
     margin-top: 1.5rem;
     width: 100%;
     padding: 0.75rem;
-    background-color: #4caf50;
+    background-color: #1abc9c;
     border: none;
     color: white;
     font-weight: bold;
     cursor: pointer;
     border-radius: 4px;
-    transition: background-color 0.3s ease;
 }
 
 .ajustes-form input[type="submit"]:hover {
-    background-color: #45a049;
+    background-color: #16a085;
 }
 
 .success-msg {
@@ -534,6 +534,21 @@ td {
 .tooltip-container:hover .tooltip-info {
     display: block;
 }
+
+.errores {
+    background: #ffe5e5;
+    border: 1px solid #cc0000;
+    color: #990000;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 6px;
+}
+
+.errores ul {
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
 
 
 /* Paginación */
@@ -1888,7 +1903,6 @@ small {
     cursor: pointer;
     font-size: 1rem;
     margin-right: 10px;
-    transition: background-color 0.3s;
 }
 
 .form-editar button[type="submit"]:hover {
