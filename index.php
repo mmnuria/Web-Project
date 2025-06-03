@@ -59,7 +59,7 @@ $reservas = $stmtReservas->fetchAll(PDO::FETCH_ASSOC);
                 if (isset($_SESSION['user']) && !empty($_SESSION['user']['nombre'])) {
                     echo " " .htmlspecialchars($_SESSION['user']['nombre']);
                 }
-                ?> , a la plataforma de reservas de salas
+                ?> a la plataforma de reservas de salas
             </h1>
 
             <!-- SALAS DISPONIBLES -->
