@@ -173,21 +173,28 @@ body>footer {
 /* ----------------- RESERVAS.PHP ----------------- */
 .reservas-page {
     padding: 20px;
+    color: #34495e;
 }
 
 .reservas-page h1.titulo {
     font-size: 2em;
     margin-bottom: 20px;
-    color: #1d3e6f;
+    color: #34495e;
 }
 
-.crear-reserva-page {
-    font-family: Arial, sans-serif;
+.reservas-page p {
+    color: #34495e;
+}
+
+.reservas-page a {
+    text-decoration: none;
+    cursor: pointer;
+    color: #1abc9c;
 }
 
 .crear-reserva-page h1 {
     margin-bottom: 20px;
-    color: #2a5d9f;
+    color: #34495e;
     font-weight: 700;
     text-align: center;
 }
@@ -196,7 +203,6 @@ body>footer {
     display: block;
     margin-bottom: 10px;
     font-weight: 600;
-    color: #444;
 }
 
 .crear-reserva-page form input[type="text"],
@@ -214,8 +220,8 @@ body>footer {
     font-family: monospace;
 }
 
-.crear-reserva-page form button {
-    background-color: #2a5d9f;
+.btn-guardar {
+    background-color: #1abc9c;
     border: none;
     color: white;
     padding: 12px 20px;
@@ -224,12 +230,30 @@ body>footer {
     cursor: pointer;
     width: 100%;
     margin-top: 15px;
-    transition: background-color 0.3s ease;
 }
 
-.crear-reserva-page form button:hover,
-.crear-reserva-page form button:focus {
-    background-color: #1d3e6f;
+.btn-guardar:hover,
+.btn-guardar:focus {
+    background-color: #16a085;
+    outline: none;
+}
+
+.btn-cancelar {
+    background-color: #e74c3c;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    font-weight: 700;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
+    text-decoration: none
+}
+
+.btn-cancelar:hover,
+.btn-cancelar:focus {
+    background-color: #c0392b;
     outline: none;
 }
 
@@ -265,38 +289,14 @@ body>footer {
 }
 
 .form-crear-reserva {
-    padding: 20px;    
+    padding: 20px;
+    color: #34495e;
 }
 
-.form-crear-reserva button,
-.form-crear-reserva a {
-    display: inline-block;
-    background-color: #2a5d9f;
-    color: white;
-    padding: 12px 20px;
-    font-weight: 700;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-    border: none;
-    user-select: none;
-    margin-right: 10px;
-}
 
 /* Para que el enlace tenga línea vertical centrada */
 .form-crear-reserva a {
     line-height: 1.6;
-}
-
-/* Hover y focus para ambos */
-.form-crear-reserva button:hover,
-.form-crear-reserva button:focus,
-.form-crear-reserva a:hover,
-.form-crear-reserva a:focus {
-    background-color: #1d3e6f;
-    outline: none;
 }
 
 /* Inputs con padding */
@@ -388,14 +388,8 @@ body>footer {
 
 /* Estilos de busqueda_reservas */
 .busqueda-reservas * {
-    box-sizing: border-box;
-}
-
-.busqueda-reservas body {
-    font-family: "Segoe UI", Arial, sans-serif;
-    background: #f4f7fc;
-    margin: 0;
-    padding: 0;
+    margin: 20px;
+    color: #34495e
 }
 
 .busqueda-reservas .container {
@@ -416,7 +410,6 @@ body>footer {
 .busqueda-reservas legend {
     font-size: 1.1rem;
     font-weight: 600;
-    color: #333;
     margin-bottom: .5rem;
 }
 
@@ -441,20 +434,26 @@ body>footer {
 }
 
 .busqueda-reservas button[type="submit"] {
-    margin-top: .8rem;
-    padding: .6rem 1.4rem;
     border: none;
     border-radius: 20px;
-    background: #008fd4;
+    background: #1abc9c;
     color: #fff;
-    font-size: .9rem;
+    font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background .2s;
+    /* Tamaño fijo */
+    width: 120px;      
+    height: 40px;      
+    /* Evitar que el contenido estire el botón */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: auto;
 }
 
+
 .busqueda-reservas button[type="submit"]:hover {
-    background: #0077b3;
+    background: #16a085;
 }
 
 /* Listado de reservas */
@@ -488,6 +487,51 @@ body>footer {
     text-decoration: underline;
 }
 
+td {
+    position: relative;
+}
+
+.btn-cancel {
+    background: white;
+    border: 1px solid red;
+    color: red;
+    font-size: 12px;
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    text-align: center;
+    cursor: pointer;
+}
+
+.btn-cancel:hover {
+    background: rgb(235, 183, 183);
+    color: white;
+}
+
+.tooltip-container {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-info {
+    display: none;
+    position: absolute;
+    top: -5px;
+    left: 105%;
+    z-index: 100;
+    background-color: #333;
+    color: #fff;
+    padding: 6px;
+    font-size: 13px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.tooltip-container:hover .tooltip-info {
+    display: block;
+}
+
+
 /* Paginación */
 .busqueda-reservas .paginacion {
     display: flex;
@@ -501,7 +545,7 @@ body>footer {
     width: 38px;
     height: 38px;
     border-radius: 50%;
-    background: #008fd4;
+    background: #34495e;
     color: #fff;
     display: flex;
     justify-content: center;
@@ -509,7 +553,6 @@ body>footer {
     text-decoration: none;
     font-size: 18px;
     font-weight: 700;
-    transition: background .2s;
 }
 
 .busqueda-reservas .paginacion a.disabled {
@@ -545,14 +588,12 @@ body>footer {
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    font-family: 'Segoe UI', sans-serif;
 }
 
 .form-añadir label {
     display: block;
     margin-bottom: 1.2rem;
-    font-weight: 500;
-    color: #333;
+    font-weight: 700;
 }
 
 .form-añadir input[type="text"],
@@ -563,7 +604,6 @@ body>footer {
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
-    transition: border-color 0.3s ease;
 }
 
 .form-añadir input:focus,
@@ -579,17 +619,18 @@ body>footer {
 
 .form-añadir button {
     padding: 0.7rem 1.5rem;
-    background-color: #0077cc;
+    background-color: #1abc9c;
     color: white;
     border: none;
     border-radius: 4px;
     font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    display: block;
+    margin: 1rem auto;
 }
 
 .form-añadir button:hover {
-    background-color: #005fa3;
+    background-color: #16a085;
 }
 
 /* Errores de validación */
@@ -605,13 +646,20 @@ body>footer {
     margin-bottom: 0.5rem;
 }
 
+.container-añadir-sala {
+    color: #34495e;
+}
+
+.container-añadir-sala h1 {
+    text-align: center;
+}
+
 /* Estilos para el formulario de edición de sala */
 #editar-sala-form {
     background-color: #fff;
     padding: 20px 25px;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
-    max-width: 600px;
     margin-bottom: 40px;
 }
 
@@ -625,12 +673,10 @@ body>footer {
 #editar-sala-form input[type="number"],
 #editar-sala-form textarea {
     width: 100%;
-    padding: 8px 12px;
+    padding: 5px;
     border: 1.5px solid #ccc;
     border-radius: 5px;
     font-size: 1rem;
-    transition: border-color 0.3s ease;
-    font-family: inherit;
 }
 
 #editar-sala-form input[type="text"]:focus,
@@ -653,7 +699,7 @@ body>footer {
 }
 
 #editar-sala-form button {
-    background-color: #007BFF;
+    background-color: #1abc9c;
     color: white;
     border: none;
     padding: 12px 25px;
@@ -661,11 +707,27 @@ body>footer {
     border-radius: 6px;
     cursor: pointer;
     font-weight: 700;
-    transition: background-color 0.3s ease;
 }
 
 #editar-sala-form button:hover {
-    background-color: #0056b3;
+    background-color: #16a085;
+}
+
+.container-editar-salas {
+    margin: 10px;
+    padding: 0 20px;
+    color: #34495e;
+}
+
+.container-editar-salas h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.container-editar-salas h2 {
+    font-size: 1rem;
+    margin-bottom: 20px;
 }
 
 /* Estilos para el formulario de subida de fotos */
@@ -689,7 +751,7 @@ body>footer {
 }
 
 #subir-foto-form button {
-    background-color: #28a745;
+    background-color: #1abc9c;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -697,11 +759,10 @@ body>footer {
     border-radius: 6px;
     cursor: pointer;
     font-weight: 700;
-    transition: background-color 0.3s ease;
 }
 
 #subir-foto-form button:hover {
-    background-color: #1e7e34;
+    background-color: #16a085;
 }
 
 /* Estilos para las fotos actuales */
@@ -709,7 +770,6 @@ body>footer {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    max-width: 1000px;
 }
 
 .foto-item {
@@ -767,14 +827,8 @@ a.back-link:hover {
         max-width: 100%;
     }
 }
-.container-editar-salas {
-    max-width: 900px;      /* Ancho máximo */
-    margin: 40px auto;     /* Centrado horizontal y margen vertical */
-    padding: 0 20px;       /* Espaciado interno horizontal */
-    box-sizing: border-box;
-  }
 
-  /* Mini calendario específico para reservas.php */
+/* Mini calendario específico para reservas.php */
 
 .reservas-page .calendario-wrapper {
     max-width: 380px;
@@ -782,7 +836,7 @@ a.back-link:hover {
     border: 1px solid #ddd;
     border-radius: 6px;
     background-color: #fafafa;
-    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
     padding: 1rem;
     user-select: none;
 }
@@ -931,12 +985,13 @@ a.back-link:hover {
     border-radius: 12px;
     padding: 20px;
     width: 150px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
 
 .sala-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
 .sala-card h3 {
@@ -948,39 +1003,192 @@ a.back-link:hover {
     margin: 8px 0;
     color: #555;
 }
-/* Layout para la sección de reservas en formato tarjetas */
-.reservas-grid {
+
+.popup-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
     justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.popup-content {
+    background: #fff;
+    border-radius: 8px;
+    max-width: 700px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 20px 30px 40px 30px;
+    box-sizing: border-box;
+    position: relative;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.popup-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.popup-close:hover {
+    color: #000;
+}
+
+/* Contenedor de la imagen con botones */
+#modal-fotos-container {
+    position: relative;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Imagen modal */
+#modal-foto {
+    max-width: 100%;
+    max-height: 60vh;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    user-select: none;
+}
+
+/* Botones flechas */
+#prev-foto,
+#next-foto {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+    user-select: none;
+    cursor: pointer;
+}
+
+#prev-foto:hover,
+#next-foto:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Posicionar flechas al centro vertical */
+#prev-foto {
+    margin-right: 10px;
+}
+
+#next-foto {
+    margin-left: 10px;
+}
+
+/* Texto sala info dentro del modal */
+#modal-sala-info h2 {
+    margin-bottom: 10px;
+    font-size: 1.8rem;
+    color: #222;
+}
+
+#modal-sala-info p {
+    margin: 6px 0;
+    color: #444;
+    line-height: 1.4;
+}
+
+/* Scroll para descripción larga si hiciera falta */
+#modal-sala-info {
+    max-height: 200px;
+    overflow-y: auto;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+/* Layout para la sección de reservas en formato lista */
+.reservas-grid {
+    display: block;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
 }
 
 .reserva-card {
-    background-color: #fafafa;
-    border: 1px solid #ccc;
-    border-radius: 12px;
-    padding: 18px;
-    width: 150px;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    border-bottom: 1px solid #ddd;
+    padding: 12px 0;
+    color: #333;
 }
 
-.reserva-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+.reserva-card:last-child {
+    border-bottom: none;
 }
 
 .reserva-card h3 {
-    margin: 0 0 10px;
-    color: #34495e;
+    margin: 0 0 6px;
+    font-size: 1.1em;
+    color: #2c3e50;
 }
 
 .reserva-card p {
-    margin: 6px 0;
-    color: #444;
+    margin: 3px 0;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.btn-ver-mas {
+    display: inline-block;
+    padding: 10px 18px;
+    background-color: #1abc9c;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.btn-ver-mas:hover {
+    background-color: #1abc9c;
 }
 
 /* Estilo configuración del sitio */
+.btn-configurar-sitio {
+    margin: 35px;
+    padding: 8px 14px;
+    font-size: 0.95rem;
+    color: white;
+    background-color: #1abc9c;
+    border-radius: 6px;
+    text-decoration: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.btn-configurar-sitio:hover,
+.btn-configurar-sitio:focus {
+    background-color: #16a085;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    outline: none;
+    cursor: pointer;
+}
+
 .configuracion-container {
     background: #fff;
     padding: 35px 45px;
@@ -998,6 +1206,13 @@ a.back-link:hover {
     font-weight: 600;
     font-size: 1.05rem;
     text-align: center;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.05);
+}
+
+.alert-añadir-sala {
+    margin-bottom: 25px;
+    border-radius: 10px;
+    font-weight: 600;
     box-shadow: 0 2px 8px rgb(0 0 0 / 0.05);
 }
 
@@ -1069,11 +1284,11 @@ a.back-link:hover {
     border-radius: 10px;
     border: 1px solid #ddd;
     object-fit: contain;
-    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.07));
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.07));
 }
 
 .btn-submit {
-    background: linear-gradient(135deg, #364884 0%, #1d3e6f 100%);
+    background: linear-gradient(135deg, #42bca4 0%, #1abc9c 100%);
     color: white;
     border: none;
     padding: 16px 26px;
@@ -1081,26 +1296,18 @@ a.back-link:hover {
     font-weight: 700;
     border-radius: 20px;
     cursor: pointer;
-    transition: background 0.4s ease, box-shadow 0.3s ease;
     align-self: center;
     width: 200px;
-    box-shadow: 0 6px 12px rgba(64, 86, 244, 0.4);
 }
 
 .btn-submit:hover,
 .btn-submit:focus {
-    background: linear-gradient(135deg, #4056f4 0%, #2c3bbd 100%);
-    box-shadow: 0 8px 20px rgba(44, 59, 189, 0.6);
-    outline: none;
+    background: linear-gradient(135deg, #2d9d87 0%, #16a085 100%);
+
 }
 
 
 /* Estilo para salas.php */
-
-.salas-main {
-    max-width: 1200px;
-    margin: 0 auto;
-}
 
 .salas-title {
     text-align: center;
@@ -1114,7 +1321,7 @@ a.back-link:hover {
 }
 
 .salas-add-link a {
-    color: #2c7be5;
+    color: #34495e;
     font-weight: 600;
     text-decoration: none;
 }
@@ -1136,7 +1343,8 @@ a.back-link:hover {
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
 }
 
-.salas-table th, .salas-table td {
+.salas-table th,
+.salas-table td {
     padding: 16px;
     text-align: left;
     border-bottom: 1px solid #eee;
@@ -1157,7 +1365,8 @@ a.back-link:hover {
     height: auto;
     margin-right: 6px;
     border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
 
 .sin-fotos {
@@ -1166,7 +1375,7 @@ a.back-link:hover {
 }
 
 .btn-editar {
-    color: #2c7be5;
+    color: #34495e;
     text-decoration: none;
     font-weight: bold;
 }
@@ -1209,18 +1418,17 @@ small {
 }
 
 .form-comentario button {
-    background-color: #2c7be5;
+    background-color: #1abc9c;
     color: white;
     padding: 8px 16px;
     border: none;
     border-radius: 6px;
     font-weight: bold;
     cursor: pointer;
-    transition: background 0.3s ease;
 }
 
 .form-comentario button:hover {
-    background-color: #1a5fc2;
+    background-color: #16a085;
 }
 
 .acciones-admin {
@@ -1238,15 +1446,129 @@ small {
     font-weight: bold;
     cursor: pointer;
     font-size: 0.9rem;
-    transition: background 0.3s ease;
 }
 
 .btn-eliminar:hover {
     background-color: #c0392b;
 }
 
+#popup-img-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+#popup-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    background: transparent;
+    border: none;
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+    z-index: 10000;
+}
+
+#popup-prev-btn {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    background: transparent;
+    border: none;
+    font-size: 3rem;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+    transform: translateY(-50%);
+    z-index: 10000;
+}
+
+#popup-next-btn {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    background: transparent;
+    border: none;
+    font-size: 3rem;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+    transform: translateY(-50%);
+    z-index: 10000;
+}
+
+#popup-img {
+    max-width: 90%;
+    max-height: 80vh;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    display: block;
+    margin: 0 auto;
+}
+
+/* Paginación para Listado de Salas */
+.salas-main .paginacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.2rem;
+    margin-top: 1.6rem;
+}
+
+.paginacion .btn-paginas,
+.salas-main .paginacion span.actual {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #34495e;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.paginacion .btn-anterior,
+.paginacion .btn-siguiente {
+    height: 38px;
+    background: #34495e;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 5px;
+}
+
+.salas-main .paginacion a:hover {
+    background: #0077b3;
+}
+
+.salas-main .paginacion a.disabled {
+    background: #c2c7ce;
+    cursor: default;
+    pointer-events: none;
+}
+
+.salas-main .paginacion span.actual {
+    background: #004f80;
+    cursor: default;
+}
+
+
 /* Estilos pagina usuarios */
-/* Solo para la página de usuarios */
 #usuarios-page main {
     max-width: 900px;
     margin: 2rem auto;
@@ -1273,11 +1595,11 @@ small {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 2rem;
-    box-shadow: 0 0 8px rgba(0,0,0,0.05);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
 }
 
 #usuarios-page thead {
-    background-color: #0097a7;
+    background-color: #34495e;
     color: white;
 }
 
@@ -1301,8 +1623,6 @@ small {
     cursor: pointer;
     text-decoration: none;
     color: white;
-    display: inline-block;
-    transition: background-color 0.2s ease;
 }
 
 #usuarios-page .btn-edit {
@@ -1355,10 +1675,8 @@ small {
     color: white;
     font-weight: 600;
     padding: 0.6rem;
-    border: none;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
 #usuarios-page button[type="submit"]:hover {
@@ -1372,7 +1690,7 @@ small {
     background-color: #fafafa;
     border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -1423,6 +1741,7 @@ small {
 #usuarios-page .añadir-usuario button[type="submit"]:hover {
     background-color: #007c91;
 }
+
 #usuarios-page .acciones-superiores {
     display: flex;
     justify-content: flex-end;
@@ -1430,36 +1749,31 @@ small {
 }
 
 #usuarios-page .btn-add {
-    background-color: #28a745;
+    background-color: #1abc9c;
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 6px;
     text-decoration: none;
     font-size: 1.1rem;
     font-weight: bold;
-    transition: background-color 0.3s ease;
 }
 
 #usuarios-page .btn-add:hover {
-    background-color: #218838;
+    background-color: #16a085;
 }
 
-/* Estilo moderno y elegante para crear_usuario.php */
+/* Estilo de la vista crear_usuario.php */
 #crear-usuario-page {
-    max-width: 550px;
-    margin: 50px auto;
-    padding: 35px;
+    margin: 50px;
     background: #f9f9f9;
     border-radius: 20px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
-    font-family: 'Roboto', sans-serif;
 }
 
 #crear-usuario-page h1 {
     text-align: center;
     font-size: 26px;
     margin-bottom: 25px;
-    color: #2e2e2e;
     letter-spacing: 0.5px;
 }
 
@@ -1471,7 +1785,6 @@ small {
 .form-usuario label {
     font-weight: 600;
     margin-bottom: 6px;
-    color: #555;
 }
 
 .form-usuario input,
@@ -1482,35 +1795,94 @@ small {
     border-radius: 12px;
     font-size: 15px;
     background-color: #fff;
-    transition: border-color 0.3s ease, box-shadow 0.2s ease;
-}
-
-.form-usuario input:focus,
-.form-usuario select:focus {
-    border-color: #4CAF50;
-    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
-    outline: none;
 }
 
 .form-usuario button {
     padding: 12px;
-    background-color: #4CAF50;
+    background-color: #1abc9c;
     color: white;
     font-size: 16px;
     border: none;
     border-radius: 12px;
     cursor: pointer;
     font-weight: bold;
-    transition: background-color 0.3s ease;
 }
 
 .form-usuario button:hover {
-    background-color: #45a049;
+    background-color: #16a085;
 }
 
-#crear-usuario-page p {
+.mensaje {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.mensaje.error {
+    background-color: #ffe6e6;
+    color: #a10000;
+    border: 1px solid #cc0000;
+}
+.mensaje.exito {
+    background-color: #e6ffed;
+    color: #006b2e;
+    border: 1px solid #00a14b;
+}
+
+
+/* Estilos para editar a un usuario */
+.container-editar-usuario {
+    color: #34495e;
+    margin: 40px;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.container-editar-usuario h1 {
     text-align: center;
-    margin-top: 20px;
-    color: #2e7d32;
-    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.form-editar label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: bold;
+}
+
+.form-editar input[type="text"],
+.form-editar input[type="email"],
+.form-editar input[type="password"],
+.form-editar input[type="file"],
+.form-editar select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.form-editar input:focus,
+.form-editar select:focus {
+    border-color: #3c763d;
+    outline: none;
+}
+
+.form-editar button[type="submit"] {
+    background-color: #1abc9c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-right: 10px;
+    transition: background-color 0.3s;
+}
+
+.form-editar button[type="submit"]:hover {
+    background-color: #16a085;
 }

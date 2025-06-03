@@ -142,7 +142,7 @@ $fin = limitarHora($fin, $horaInicio, $horaFin);
             </ul>
         <?php endif; ?>
 
-        <form method="post" class="form-crear-reserva">
+        <form method="post" class="form-crear-reserva" novalidate>
             <input type="hidden" name="fecha" value="<?= htmlspecialchars($fecha) ?>">
             <input type="hidden" name="sala_id" value="<?= htmlspecialchars($salaId) ?>">
 
@@ -164,9 +164,9 @@ $fin = limitarHora($fin, $horaInicio, $horaFin);
                     value="<?= htmlspecialchars($_POST['motivo'] ?? '') ?>">
             </label><br><br>
 
-            <button type="submit">Guardar</button>
+            <button type="submit" class="btn-guardar">Guardar</button>
             <button type="button"
-                onclick="window.location.href='reservas.php?fecha=<?= htmlspecialchars($fecha) ?>'">Cancelar</button>
+                onclick="window.location.href='reservas.php?fecha=<?= htmlspecialchars($fecha) ?>'" class="btn-cancelar">Cancelar</button>
 
         </form>
     </div>

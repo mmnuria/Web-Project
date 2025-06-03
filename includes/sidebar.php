@@ -1,5 +1,6 @@
 <?php
 require_once 'db.php';
+require_once 'funciones.php'; // Incluir funciones comunes
 
 // Iniciar sesión si no está iniciada
 if (session_status() === PHP_SESSION_NONE) {
@@ -34,15 +35,6 @@ try {
 } catch (PDOException $e) {
     die("Error al obtener datos para el sidebar: " . $e->getMessage());
 }
-
-// Función para formatear hora sin segundos
-function formatHoraSinSegundos($hora)
-{
-    if (!$hora)
-        return '';
-    $dt = DateTime::createFromFormat('H:i:s', $hora);
-    return $dt ? $dt->format('H:i') : $hora;
-}
 ?>
 
 <aside>
@@ -72,8 +64,9 @@ function formatHoraSinSegundos($hora)
 
         <?php if (!empty($_SESSION['user']) && ($_SESSION['user']['rol'] ?? '') === 'admin'): ?>
             <div class="sidebar-item">
-                <a href="editar_info.php">⚙️ Configurar sitio</a>
+                <a href="editar_info.php" class="btn-configurar-sitio">⚙️ Configurar sitio</a>
             </div>
+
         <?php endif; ?>
     </div>
 </aside>

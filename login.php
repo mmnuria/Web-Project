@@ -13,12 +13,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $usuario = $stmt->fetch();
 
     if ($usuario && password_verify($password, $usuario['clave'])) {
-        // Guardar datos del usuario en sesión
+        // Guardar datos del usuario en sesión, incluyendo la foto
         $_SESSION['user'] = [
             'id' => $usuario['id'],
             'nombre' => $usuario['nombre'],
             'email' => $usuario['email'],
-            'rol' => $usuario['rol']
+            'rol' => $usuario['rol'],
+            'foto' => $usuario['foto'], 
         ];
 
         // Registrar en log_eventos que usuario se ha identificado
@@ -55,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <?php if ($error): ?>
                 <div class="error"><?php echo $error; ?></div>
             <?php endif; ?>
-            <form method="post" class="login-form">
+            <form method="post" class="login-form" novalidate>
                 <label for="email">Correo electrónico:</label>
                 <input type="email" name="email" required>
 

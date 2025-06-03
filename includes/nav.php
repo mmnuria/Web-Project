@@ -24,7 +24,13 @@ $rol = $_SESSION['user']['rol'] ?? null;
         <div class="nav-right">
             <?php if (isset($_SESSION['user'])): ?>
                 <div class="dropdown">
-                    <button class="dropbtn"><?php echo htmlspecialchars($_SESSION['user']['nombre']); ?> ▼</button>
+                    <button class="dropbtn">
+                        <?php if (!empty($_SESSION['user']['foto'])): ?>
+                            <img src="data:image/jpeg;base64,<?= base64_encode($_SESSION['user']['foto']) ?>" alt="Avatar"
+                                class="avatar-usuario" />
+                        <?php endif; ?>
+                        <?= htmlspecialchars($_SESSION['user']['nombre']) ?> ▼
+                    </button>
                     <div class="dropdown-content">
                         <a href="perfil.php">Perfil</a>
                         <a href="logout.php">Cerrar sesión</a>
@@ -35,5 +41,8 @@ $rol = $_SESSION['user']['rol'] ?? null;
                 <a href="registro.php" class="btn">Registrarse</a>
             <?php endif; ?>
         </div>
+
+
+
     </div>
 </nav>

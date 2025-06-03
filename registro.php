@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <?php if ($error): ?>
                 <div class="error"><?php echo $error; ?></div>
             <?php endif; ?>
-            <form method="post" enctype="multipart/form-data" class="login-form">
+            <form method="post" enctype="multipart/form-data" class="login-form" novalidate>
                 <label for="nombre">Nombre:</label>
                 <input type="text" name="nombre" required>
 

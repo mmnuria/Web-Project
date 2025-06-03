@@ -2,7 +2,6 @@
 session_start();
 require_once 'includes/db.php';
 
-// Verificar si el usuario es administrador
 if (!isset($_SESSION['user']) || $_SESSION['user']['rol'] !== 'admin') {
     header('Location: login.php');
     exit;
@@ -14,6 +13,8 @@ if (!isset($_GET['id'])) {
 }
 
 $sala_id = (int) $_GET['id'];
+$mensaje = '';
+$tipo_mensaje = ''; // 'error' o 'exito'
 
 // Obtener datos actuales de la sala
 $stmt = $pdo->prepare("SELECT * FROM salas WHERE id = ?");
@@ -27,27 +28,38 @@ if (!$sala) {
 
 $usuario_id = $_SESSION['user']['id'];
 
-// Función para registrar eventos en log_eventos
-function registrarLog($pdo, $descripcion) {
+function registrarLog($pdo, $descripcion)
+{
     $stmt = $pdo->prepare("INSERT INTO log_eventos (descripcion) VALUES (?)");
     $stmt->execute([$descripcion]);
 }
 
+// Mostrar mensaje si se actualizó
+if (isset($_GET['actualizado']) && $_GET['actualizado'] == '1') {
+    $mensaje = "Sala actualizada correctamente.";
+    $tipo_mensaje = "exito";
+}
+
 // Actualizar datos textuales
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['actualizar_sala'])) {
-    $nombre = $_POST['nombre'];
-    $ubicacion = $_POST['ubicacion'];
-    $num_puestos = (int) $_POST['num_puestos'];
-    $descripcion = $_POST['descripcion'];
+    $nombre = trim($_POST['nombre'] ?? '');
+    $ubicacion = trim($_POST['ubicacion'] ?? '');
+    $num_puestos = trim($_POST['num_puestos'] ?? '');
+    $descripcion_sala = trim($_POST['descripcion'] ?? '');
     $reservable = isset($_POST['reservable']) ? 1 : 0;
 
-    $stmt = $pdo->prepare("UPDATE salas SET nombre = ?, ubicacion = ?, num_puestos = ?, descripcion = ?, reservable = ? WHERE id = ?");
-    $stmt->execute([$nombre, $ubicacion, $num_puestos, $descripcion, $reservable, $sala_id]);
+    if ($nombre === '' || $ubicacion === '' || $num_puestos === '' || $descripcion_sala === '') {
+        $mensaje = "Por favor, complete todos los campos obligatorios.";
+        $tipo_mensaje = 'error';
+    } else {
+        $stmt = $pdo->prepare("UPDATE salas SET nombre = ?, ubicacion = ?, num_puestos = ?, descripcion = ?, reservable = ? WHERE id = ?");
+        $stmt->execute([$nombre, $ubicacion, (int) $num_puestos, $descripcion_sala, $reservable, $sala_id]);
 
-    registrarLog($pdo, "Sala ID $sala_id actualizada por usuario ID $usuario_id. Datos: nombre='$nombre', ubicacion='$ubicacion', puestos=$num_puestos, reservable=$reservable");
+        registrarLog($pdo, "Sala ID $sala_id actualizada por usuario ID $usuario_id. Datos: nombre='$nombre', ubicacion='$ubicacion', puestos=$num_puestos, reservable=$reservable");
 
-    header("Location: editar_sala.php?id=$sala_id");
-    exit;
+        header("Location: editar_sala.php?id=$sala_id&actualizado=1");
+        exit;
+    }
 }
 
 // Subida de nuevas fotos
@@ -99,25 +111,47 @@ $fotos = $stmt->fetchAll();
     <?php include 'includes/header.php'; ?>
     <?php include 'includes/nav.php'; ?>
 
+    <?php if ($mensaje): ?>
+        <div id="mensaje" class="mensaje <?= $tipo_mensaje ?>">
+            <?= htmlspecialchars($mensaje) ?>
+        </div>
+        <script>
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        </script>
+    <?php endif; ?>
+
     <div class="container-editar-salas">
 
         <h1>Editar Sala: <?= htmlspecialchars($sala['nombre']) ?></h1>
 
         <h2>Datos de la sala</h2>
-        <form id="editar-sala-form" method="POST">
+        <form id="editar-sala-form" method="POST" novalidate>
             <input type="hidden" name="actualizar_sala" value="1">
-            <label>Nombre: <input type="text" name="nombre" value="<?= htmlspecialchars($sala['nombre']) ?>" required></label><br>
-            <label>Ubicación: <input type="text" name="ubicacion" value="<?= htmlspecialchars($sala['ubicacion']) ?>" required></label><br>
-            <label>Número de puestos: <input type="number" name="num_puestos" value="<?= $sala['num_puestos'] ?>" required></label><br>
-            <label>Descripción:<br>
-                <textarea name="descripcion" rows="4" cols="50"><?= htmlspecialchars($sala['descripcion']) ?></textarea>
+
+            <label>Nombre:
+                <input type="text" name="nombre" value="<?= htmlspecialchars($sala['nombre']) ?>" required>
             </label><br>
-            <label><input type="checkbox" name="reservable" <?= $sala['reservable'] ? 'checked' : '' ?>>
-                ¿Reservable?</label><br>
+
+            <label>Ubicación:
+                <input type="text" name="ubicacion" value="<?= htmlspecialchars($sala['ubicacion']) ?>" required>
+            </label><br>
+
+            <label>Número de puestos:
+                <input type="number" name="num_puestos" value="<?= $sala['num_puestos'] ?>" required>
+            </label><br>
+
+            <label>Descripción:<br>
+                <textarea name="descripcion" rows="4" cols="50" required><?= htmlspecialchars($sala['descripcion']) ?></textarea>
+            </label><br>
+
+            <label>
+                <input type="checkbox" name="reservable" <?= $sala['reservable'] ? 'checked' : '' ?>>
+                ¿Reservable?
+            </label><br>
+
             <button type="submit">Guardar cambios</button>
         </form>
 
-        <!-- Fotos actuales -->
         <h2>Fotos actuales</h2>
         <?php if (count($fotos) > 0): ?>
             <div class="fotos-container">
@@ -134,15 +168,68 @@ $fotos = $stmt->fetchAll();
         <?php endif; ?>
 
         <h2>Añadir nueva foto</h2>
-        <form id="subir-foto-form" method="POST" enctype="multipart/form-data">
+        <form id="subir-foto-form" method="POST" enctype="multipart/form-data" novalidate>
             <input type="hidden" name="subir_foto" value="1">
             <label>Foto: <input type="file" name="foto" accept="image/*" required></label><br>
             <button type="submit">Subir foto</button>
         </form>
 
-        <br><a href="salas.php">← Volver a la lista de salas</a>
     </div>
+
     <?php include 'includes/footer.php'; ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const editarSalaForm = document.getElementById('editar-sala-form');
+            const subirFotoForm = document.getElementById('subir-foto-form');
+
+            if (editarSalaForm) {
+                editarSalaForm.addEventListener('submit', function (e) {
+                    const nombre = editarSalaForm.nombre.value.trim();
+                    const ubicacion = editarSalaForm.ubicacion.value.trim();
+                    const numPuestos = editarSalaForm.num_puestos.value.trim();
+                    const descripcion = editarSalaForm.descripcion.value.trim();
+
+                    if (!nombre || !ubicacion || !numPuestos || !descripcion) {
+                        e.preventDefault();
+                        mostrarMensaje("Por favor, complete todos los campos obligatorios.", "error");
+                    }
+                });
+            }
+
+            if (subirFotoForm) {
+                subirFotoForm.addEventListener('submit', function (e) {
+                    const inputArchivo = subirFotoForm.querySelector('input[type="file"]');
+                    const archivo = inputArchivo.files[0];
+
+                    if (!archivo) {
+                        e.preventDefault();
+                        mostrarMensaje("Por favor, seleccione una imagen antes de subirla.", "error");
+                        return;
+                    }
+
+                    const tiposPermitidos = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+                    if (!tiposPermitidos.includes(archivo.type)) {
+                        e.preventDefault();
+                        mostrarMensaje("Solo se permiten archivos de imagen (JPEG, PNG, GIF, WebP).", "error");
+                    }
+                });
+            }
+
+            function mostrarMensaje(texto, tipo) {
+                let contenedor = document.getElementById('mensaje');
+                if (!contenedor) {
+                    contenedor = document.createElement('div');
+                    contenedor.id = 'mensaje';
+                    document.querySelector('.container-editar-salas').prepend(contenedor);
+                }
+
+                contenedor.className = 'mensaje ' + tipo;
+                contenedor.textContent = texto;
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+    </script>
 </body>
 
 </html>

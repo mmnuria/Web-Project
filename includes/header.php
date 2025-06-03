@@ -13,9 +13,4 @@ $nombreCentro = $info['nombre_centro'] ?? 'Proyecto Web';
         <img src="mostrar_logo.php" alt="Logo del centro" height="50">
         <h1><?= htmlspecialchars($nombreCentro) ?></h1>
     </div>
-    <div class="auth">
-        <?php if (isset($_SESSION['user'])): ?>
-            <p>Hola, <?= htmlspecialchars($_SESSION['user']['nombre']) ?></p>
-        <?php endif; ?>
-    </div>
 </header>

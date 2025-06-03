@@ -76,7 +76,7 @@ $logo_exists = !empty($info['logo']);
             <div class="alert alert-success"><?= htmlspecialchars($mensaje, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></div>
         <?php endif; ?>
 
-        <form method="post" enctype="multipart/form-data" class="configuracion-form">
+        <form method="post" enctype="multipart/form-data" class="configuracion-form" novalidate>
             <div class="form-group">
                 <label for="nombre_centro">Nombre del centro:</label>
                 <input type="text" id="nombre_centro" name="nombre_centro" value="<?= $nombre_centro_safe ?>" required />

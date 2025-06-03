@@ -1,9 +1,7 @@
-nav {
-    background-color: #34495e;
-    padding: 0.5rem 2rem;
-}
 
 .nav-content {
+    background-color: #34495e;
+    padding: 0.5rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -94,4 +92,13 @@ nav {
 /* Mostrar dropdown cuando el usuario pasa el mouse sobre el botón */
 .dropdown:hover .dropdown-content {
     display: flex;
+}
+
+.dropbtn img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 8px;
+    vertical-align: middle;
 }

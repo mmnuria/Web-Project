@@ -21,7 +21,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!filter_var($nuevo_email, FILTER_VALIDATE_EMAIL)) {
         $error = "Email no válido.";
     } else {
-        // Actualizar email y, si viene, contraseña
         try {
             if (!empty($nueva_password)) {
                 if (strlen($nueva_password) < 4) {
@@ -74,6 +73,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 // Actualizar sesión con nuevo email
                 $_SESSION['user']['email'] = $nuevo_email;
+
+                // Actualizar foto en sesión si se subió nueva
+                if (isset($foto_data)) {
+                    $_SESSION['user']['foto'] = $foto_data;
+                }
             }
         } catch (Exception $e) {
             $error = "Error actualizando los datos.";
@@ -103,16 +107,6 @@ function mostrarImagen($foto_blob) {
     <meta charset="UTF-8" />
     <title>Perfil de usuario</title>
     <link rel="stylesheet" href="css/styles.css" />
-    <style>
-        .ajustes-container { max-width: 500px; margin: 2rem auto; padding: 1rem; background: #f7f7f7; border-radius: 8px; }
-        label { font-weight: bold; }
-        input[type="text"], input[type="email"], input[type="password"] {
-            width: 100%; padding: 0.4rem; margin-bottom: 1rem; border: 1px solid #ccc; border-radius: 4px;
-        }
-        .success-msg { color: green; margin-bottom: 1rem; }
-        .error-msg { color: red; margin-bottom: 1rem; }
-        img { display: block; margin-bottom: 1rem; }
-    </style>
 </head>
 <body>
     <?php include 'includes/header.php'; ?>
@@ -130,7 +124,7 @@ function mostrarImagen($foto_blob) {
                 <p class="error-msg"><?= htmlspecialchars($error) ?></p>
             <?php endif; ?>
 
-            <form method="post" enctype="multipart/form-data" class="ajustes-form">
+            <form method="post" enctype="multipart/form-data" class="ajustes-form" novalidate>
                 <label>Nombre:</label>
                 <input type="text" value="<?= htmlspecialchars($usuario['nombre']) ?>" disabled><br>
 

@@ -1,33 +1,27 @@
 <?php
-/* cancelar_reserva.php – Elimina una reserva propia */
 session_start();
-require_once 'includes/auth.php';
 require_once 'includes/db.php';
 
-if (!isset($_SESSION['user'])) {
-    header('Location: login.php');
+$usuario = $_SESSION['user'] ?? null;
+$reserva_id = $_POST['reserva_id'] ?? null;
+$fecha = $_POST['fecha'] ?? date('Y-m-d');
+
+// Validaciones básicas
+if (!$usuario || !$reserva_id) {
+    header("Location: reservas.php?fecha=" . urlencode($fecha));
     exit;
 }
 
-$usuario_id = $_SESSION['user']['id'];
+// Obtener la reserva
+$stmt = $pdo->prepare("SELECT * FROM reservas WHERE id = ?");
+$stmt->execute([$reserva_id]);
+$reserva = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reserva_id'])) {
-    $reserva_id = (int)$_POST['reserva_id'];
-    $fecha      = $_POST['fecha'] ?? date('Y-m-d');
-
-    /* ¿La reserva es del usuario? */
-    $st = $pdo->prepare("SELECT 1 FROM reservas WHERE id = ? AND usuario_id = ?");
-    $st->execute([$reserva_id, $usuario_id]);
-
-    if ($st->fetchColumn()) {
-        $pdo->prepare("DELETE FROM reservas WHERE id = ?")->execute([$reserva_id]);
-
-        // Registrar en log_eventos la cancelación
-        $descripcion = "Reserva ID $reserva_id cancelada por usuario ID $usuario_id";
-        $stmt = $pdo->prepare("INSERT INTO log_eventos (descripcion) VALUES (?)");
-        $stmt->execute([$descripcion]);
-    }
-    header('Location: reservas.php?fecha=' . $fecha);
-    exit;
+// Validar permisos: el usuario debe ser el dueño o tener rol 'admin'
+if ($reserva && ($reserva['usuario_id'] == $usuario['id'] || $usuario['rol'] === 'admin')) {
+    $deleteStmt = $pdo->prepare("DELETE FROM reservas WHERE id = ?");
+    $deleteStmt->execute([$reserva_id]);
 }
-header('Location: reservas.php');
+
+header("Location: reservas.php?fecha=" . urlencode($fecha));
+exit;
