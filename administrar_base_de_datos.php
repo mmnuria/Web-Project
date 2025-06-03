@@ -2,7 +2,7 @@
 session_start();
 require_once 'includes/db.php';
 
-// Solo admins pueden acceder
+// Solo administradores
 if (empty($_SESSION['user']) || $_SESSION['user']['rol'] !== 'admin') {
     die("Acceso no autorizado.");
 }
@@ -10,128 +10,77 @@ if (empty($_SESSION['user']) || $_SESSION['user']['rol'] !== 'admin') {
 $error = '';
 $success = '';
 
-function crearAdminSiNoExiste($pdo)
-{
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM usuarios WHERE rol = 'admin'");
-    $stmt->execute();
-    if ($stmt->fetchColumn() == 0) {
-        $passwordHash = password_hash('admin123', PASSWORD_DEFAULT);
-        $stmtInsert = $pdo->prepare("INSERT INTO usuarios (nombre, apellidos, dni, email, clave, rol) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmtInsert->execute(['Admin', 'Principal', '00000000A', 'admin@localhost', $passwordHash, 'admin']);
-    }
-}
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion'])) {
+    $accion = $_POST['accion'];
 
-// Acción: Backup
-if (isset($_POST['accion']) && $_POST['accion'] === 'backup') {
-    try {
-        // Obtenemos todas las tablas
-        $tablas = [];
-        $res = $pdo->query("SHOW TABLES");
-        while ($fila = $res->fetch(PDO::FETCH_NUM)) {
-            $tablas[] = $fila[0];
-        }
-
-        $sqlDump = "";
-        foreach ($tablas as $tabla) {
-            // DROP TABLE
-            $sqlDump .= "DROP TABLE IF EXISTS `$tabla`;\n";
-
-            // CREATE TABLE
-            $res2 = $pdo->query("SHOW CREATE TABLE `$tabla`");
-            $fila2 = $res2->fetch(PDO::FETCH_ASSOC);
-            $sqlDump .= $fila2['Create Table'] . ";\n\n";
-
-            // INSERTS
-            $res3 = $pdo->query("SELECT * FROM `$tabla`");
-            while ($fila3 = $res3->fetch(PDO::FETCH_ASSOC)) {
-                $campos = array_map(function ($campo) use ($pdo) {
-                    return $pdo->quote($campo);
-                }, array_values($fila3));
-                $sqlDump .= "INSERT INTO `$tabla` VALUES (" . implode(',', $campos) . ");\n";
-            }
-            $sqlDump .= "\n\n";
-        }
-
-        // Enviar como descarga
+    if ($accion === 'backup') {
+        // Generar backup SQL manualmente
+        ob_start();
         header('Content-Type: application/sql');
         header('Content-Disposition: attachment; filename=backup_' . date('Ymd_His') . '.sql');
-        header('Content-Length: ' . strlen($sqlDump));
-        echo $sqlDump;
-        exit;
 
-    } catch (PDOException $e) {
-        $error = "Error generando backup: " . $e->getMessage();
-    }
-}
+        $tablas = ['usuarios', 'aulas', 'reservas', 'log_eventos']; // Ajusta a tus tablas
 
-// Acción: Restaurar desde backup SQL
-if (isset($_POST['accion']) && $_POST['accion'] === 'restaurar') {
-    if (isset($_FILES['backup_sql']) && $_FILES['backup_sql']['error'] === UPLOAD_ERR_OK) {
-        $tmpFile = $_FILES['backup_sql']['tmp_name'];
-        $sqlContent = file_get_contents($tmpFile);
-
-        if ($sqlContent === false) {
-            $error = "No se pudo leer el archivo.";
-        } else {
-            try {
-                $pdo->beginTransaction();
-                $pdo->exec("SET FOREIGN_KEY_CHECKS=0;");
-
-                // Separar por ';'
-                $statements = array_filter(array_map('trim', explode(';', $sqlContent)));
-
-                foreach ($statements as $statement) {
-                    if (!empty($statement)) {
-                        $pdo->exec($statement);
-                    }
-                }
-
-                $pdo->exec("SET FOREIGN_KEY_CHECKS=1;");
-                $pdo->commit();
-
-                // Asegurar que hay admin
-                crearAdminSiNoExiste($pdo);
-
-                $success = "Restauración completada correctamente.";
-            } catch (PDOException $e) {
-                $pdo->rollBack();
-                $error = "Error al ejecutar la restauración: " . $e->getMessage();
-            }
-        }
-    } else {
-        $error = "Error en la subida del archivo.";
-    }
-}
-
-// Acción: Reiniciar (vaciar todas las tablas)
-if (isset($_POST['accion']) && $_POST['accion'] === 'reiniciar') {
-    try {
-        $pdo->beginTransaction();
-        $pdo->exec("SET FOREIGN_KEY_CHECKS=0;");
-
-        // Obtener tablas
-        $tablas = [];
-        $res = $pdo->query("SHOW TABLES");
-        while ($fila = $res->fetch(PDO::FETCH_NUM)) {
-            $tablas[] = $fila[0];
-        }
-
-        // Borrar datos (DELETE) de todas las tablas
         foreach ($tablas as $tabla) {
-            $pdo->exec("DELETE FROM `$tabla`");
+            echo "-- Dump de la tabla $tabla\n";
+            echo "DROP TABLE IF EXISTS `$tabla`;\n";
+            $createStmt = $pdo->query("SHOW CREATE TABLE `$tabla`")->fetch(PDO::FETCH_ASSOC);
+            echo $createStmt['Create Table'] . ";\n\n";
+
+            $rows = $pdo->query("SELECT * FROM `$tabla`")->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($rows as $row) {
+                $vals = array_map(function ($v) use ($pdo) {
+                    return is_null($v) ? 'NULL' : $pdo->quote($v);
+                }, $row);
+                $cols = implode('`, `', array_keys($row));
+                $valsStr = implode(', ', $vals);
+                echo "INSERT INTO `$tabla` (`$cols`) VALUES ($valsStr);\n";
+            }
+            echo "\n\n";
         }
+        exit;
+    }
 
-        $pdo->exec("SET FOREIGN_KEY_CHECKS=1;");
-        $pdo->commit();
+    if ($accion === 'restaurar' && isset($_FILES['sqlfile'])) {
+        $sql = file_get_contents($_FILES['sqlfile']['tmp_name']);
+        try {
+            $pdo->exec("SET FOREIGN_KEY_CHECKS = 0");
+            $pdo->beginTransaction();
+            foreach (array_filter(array_map('trim', explode(';', $sql))) as $stmt) {
+                if (!empty($stmt)) {
+                    $pdo->exec($stmt);
+                }
+            }
+            $pdo->commit();
+            $pdo->exec("SET FOREIGN_KEY_CHECKS = 1");
+            $success = "Base de datos restaurada correctamente.";
+        } catch (Exception $e) {
+            $pdo->rollBack();
+            $error = "Error al restaurar: " . $e->getMessage();
+        }
+    }
 
-        // Asegurar admin
-        crearAdminSiNoExiste($pdo);
+    if ($accion === 'reiniciar') {
+        try {
+            $pdo->exec("SET FOREIGN_KEY_CHECKS = 0");
+            $pdo->beginTransaction();
+            $tablas = ['reservas', 'aulas', 'usuarios', 'log_eventos']; // Ajusta a tus tablas reales
+            foreach ($tablas as $tabla) {
+                $pdo->exec("DELETE FROM `$tabla`");
+            }
 
-        $success = "Base de datos reiniciada correctamente.";
+            // Crear admin básico
+            $adminPass = password_hash('admin123', PASSWORD_DEFAULT);
+            $pdo->prepare("INSERT INTO usuarios (nombre, apellidos, dni, email, clave, rol) VALUES (?, ?, ?, ?, ?, ?)")
+                ->execute(['Admin', 'Principal', '00000000A', 'admin@example.com', $adminPass, 'admin']);
 
-    } catch (PDOException $e) {
-        $pdo->rollBack();
-        $error = "Error al reiniciar la base de datos: " . $e->getMessage();
+            $pdo->commit();
+            $pdo->exec("SET FOREIGN_KEY_CHECKS = 1");
+            $success = "Base de datos reiniciada. Admin: admin@example.com / admin123";
+        } catch (Exception $e) {
+            $pdo->rollBack();
+            $error = "Error al reiniciar: " . $e->getMessage();
+        }
     }
 }
 ?>
