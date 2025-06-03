@@ -85,7 +85,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><?php echo htmlspecialchars($usuario['email']); ?></td>
                     <td><?php echo htmlspecialchars($usuario['rol']); ?></td>
                     <?php if ($_SESSION['user']['rol'] === 'admin'): ?>
-                        <td>
+                        <td class="acciones-admin">
                             <a href="editar_usuario.php?id=<?php echo $usuario['id']; ?>" class="btn btn-edit">Editar</a>
                             <form method="POST" action="eliminar_usuario.php" 
                                   onsubmit="return confirm('¿Seguro que quieres eliminar este usuario?');" novalidate>
