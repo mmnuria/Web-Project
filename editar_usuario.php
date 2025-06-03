@@ -37,28 +37,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $clave = $_POST['clave'] ?? null;
     $foto = $_FILES['foto'] ?? null;
 
-    // Validación mínima
     if ($nombre && $apellidos && $dni && $email && $rol) {
-        // Subir nueva foto si existe
+        // Manejo de foto
         if ($foto && $foto['tmp_name']) {
-            $foto_nombre = 'usuario_' . $id . '_' . time() . '.' . pathinfo($foto['name'], PATHINFO_EXTENSION);
-            move_uploaded_file($foto['tmp_name'], 'uploads/' . $foto_nombre);
+            $fotoData = file_get_contents($foto['tmp_name']);
         } else {
-            $foto_nombre = $usuario['foto']; // mantener la existente
+            $fotoData = $usuario['foto']; // mantener la existente
         }
 
         // Si hay clave, actualizarla
         if ($clave) {
             $clave_hash = password_hash($clave, PASSWORD_DEFAULT);
             $stmt = $pdo->prepare("UPDATE usuarios SET nombre=?, apellidos=?, dni=?, email=?, clave=?, foto=?, rol=? WHERE id=?");
-            $stmt->execute([$nombre, $apellidos, $dni, $email, $clave_hash, $foto_nombre, $rol, $id]);
+            $stmt->execute([$nombre, $apellidos, $dni, $email, $clave_hash, $fotoData, $rol, $id]);
         } else {
             $stmt = $pdo->prepare("UPDATE usuarios SET nombre=?, apellidos=?, dni=?, email=?, foto=?, rol=? WHERE id=?");
-            $stmt->execute([$nombre, $apellidos, $dni, $email, $foto_nombre, $rol, $id]);
+            $stmt->execute([$nombre, $apellidos, $dni, $email, $fotoData, $rol, $id]);
         }
 
         $mensaje = "Usuario actualizado correctamente.";
-        // Refrescar usuario cargado
         $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE id = ?");
         $stmt->execute([$id]);
         $usuario = $stmt->fetch();
@@ -110,16 +107,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="password" name="clave">
 
             <label>Foto actual:</label>
-            <?php if ($usuario['foto']): ?>
+            <?php if (!empty($usuario['foto'])): ?>
                 <?php
                 $fotoBase64 = base64_encode($usuario['foto']);
-                $mimeType = htmlspecialchars($usuario['foto_tipo_mime'] ?? 'image/jpeg'); // valor por defecto si no tienes tipo mime
                 ?>
-                <img src="data:<?= $mimeType ?>;base64,<?= $fotoBase64 ?>" class="preview-foto" alt="Foto de usuario" />
+                <img src="data:image/jpeg;base64,<?= $fotoBase64 ?>" class="preview-foto" alt="Foto de usuario" />
             <?php else: ?>
                 <p>No tiene foto subida.</p>
             <?php endif; ?>
-
 
             <label>Actualizar foto:</label>
             <input type="file" name="foto" accept="image/*">

@@ -1908,3 +1908,46 @@ small {
 .form-editar button[type="submit"]:hover {
     background-color: #16a085;
 }
+
+/* Estilo administrar base de datos */
+.admin-db-page {
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 0 15px;
+    color: #34495e;
+}
+.admin-db-page h1 {
+    text-align: center;
+}
+.admin-db-page form {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+.admin-db-page button {
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.admin-db-page .alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+.admin-db-page .alert-error {
+    background-color: #fdd;
+    color: #900;
+}
+.admin-db-page .alert-success {
+    background-color: #dfd;
+    color: #060;
+}
+.admin-db-page label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+.admin-db-page input[type="file"] {
+    margin-bottom: 15px;
+}

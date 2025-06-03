@@ -14,9 +14,8 @@ $rol = $_SESSION['user']['rol'] ?? null;
             <li><a href="reservas.php">Reservas</a></li>
 
             <?php if ($rol === 'admin'): ?>
-                <li><a href="añadir_sala.php">Añadir Sala</a></li>
                 <li><a href="usuarios.php">Usuarios</a></li>
-                <li><a href="backup.php">Backup BBDD</a></li>
+                <li><a href="administrar_base_de_datos.php">BBDD</a></li>
                 <li><a href="log.php">Log</a></li>
             <?php endif; ?>
         </ul>

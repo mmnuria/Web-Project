@@ -1,5 +1,5 @@
 <?php
-require_once '../includes/db.php';
+require_once 'includes/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['foto']) && isset($_POST['sala_id'])) {
     $sala_id = (int)$_POST['sala_id'];
